@@ -20,7 +20,7 @@ const Home = () => {
   if (user?.role === "candidate") return <Navigate to="/dashboard-candidate" />;
   if (user?.role === "recruiter") return <Navigate to="/dashboard-recruiter" />;
   if (user?.role === "admin") return <Navigate to="/dashboard-admin" />;
-  return <div>Bienvenue sur l’app RH IA</div>;
+  return <div>Bienvenue sur notre application</div>;
 };
 
 const App = () => {

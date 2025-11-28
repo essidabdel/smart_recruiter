@@ -91,7 +91,7 @@ def ds_to_input_examples(hf_ds: Dataset):
 
 
 def main():
-    print("🔹 Chargement du CSV :", DATA_PATH)
+    print("Chargement du CSV :", DATA_PATH)
     df = pd.read_csv(DATA_PATH)
 
     # Construire les textes CV + job
@@ -130,7 +130,7 @@ def main():
     warmup_steps = int(0.1 * len(train_dataloader) * EPOCHS)
     print("Warmup steps :", warmup_steps)
 
-    print("🔹 Début de l'entraînement...")
+    print("Début de l'entraînement...")
     model.fit(
         train_objectives=[(train_dataloader, train_loss)],
         epochs=EPOCHS,

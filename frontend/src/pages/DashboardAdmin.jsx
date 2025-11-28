@@ -61,6 +61,35 @@ const DashboardAdmin = () => {
     }
   };
 
+  const deleteJob = async (jobId) => {
+    if (!window.confirm("Êtes-vous sûr de vouloir supprimer cette offre ?")) return;
+    try {
+      await api.delete(`jobs/${jobId}/`);
+      await loadJobs();
+      if (selectedJob && selectedJob.id === jobId) {
+        setSelectedJob(null);
+        setJobStats(null);
+        setTopCandidates([]);
+      }
+    } catch (e) {
+      console.error("Erreur lors de la suppression:", e);
+      alert("Erreur lors de la suppression de l'offre");
+    }
+  };
+
+  const deleteApplication = async (applicationId) => {
+    if (!window.confirm("Êtes-vous sûr de vouloir supprimer cette candidature ?")) return;
+    try {
+      await api.delete(`applications/${applicationId}/`);
+      if (selectedJob) {
+        await selectJob(selectedJob);
+      }
+    } catch (e) {
+      console.error("Erreur lors de la suppression:", e);
+      alert("Erreur lors de la suppression de la candidature");
+    }
+  };
+
   const editUserEmail = async (user) => {
     const newEmail = window.prompt("Nouveau mail :", user.email || "");
     if (!newEmail) return;
@@ -127,8 +156,9 @@ const DashboardAdmin = () => {
             ) : (
               <ul className="job-list">
                 {jobs.map((job) => (
-                  <li key={job.id}>
-                    <button className="btn btn-outline" onClick={() => selectJob(job)}>{job.title} ({mapStatus(job.status)})</button>
+                  <li key={job.id} style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                    <button className="btn btn-outline" style={{ flex: 1 }} onClick={() => selectJob(job)}>{job.title} ({mapStatus(job.status)})</button>
+                    <button className="btn btn-small btn-secondary" onClick={() => deleteJob(job.id)} title="Supprimer l'offre">🗑️</button>
                   </li>
                 ))}
               </ul>
@@ -164,7 +194,10 @@ const DashboardAdmin = () => {
                             <div className="lb-sub">{c.candidate_title || ''}</div>
                           </div>
                           <div className="lb-score">{formatScore(c.final_score)}</div>
-                          <div className="lb-actions"><button className="btn btn-outline" onClick={() => navigate(`/applications/${c.application_id}`)}>Voir</button></div>
+                          <div className="lb-actions">
+                            <button className="btn btn-outline" onClick={() => navigate(`/applications/${c.application_id}`)}>Voir</button>
+                            <button className="btn btn-small btn-secondary" onClick={() => deleteApplication(c.application_id)} title="Supprimer la candidature">🗑️</button>
+                          </div>
                         </div>
                       ))}
                   </div>
