@@ -307,6 +307,38 @@ def clean_user_input(text):
 
 ---
 
-## 📝 Licence
+## Réponses aux questions
 
-Projet académique - Libre d'utilisation
+### Comment implémenter la gestion des utilisateurs avec des rôles différents dans Django ?
+
+Pour implémenter la gestion des utilisateurs avec des rôles différents dans Django, il est intéressant d’utiliser les Groupes intégrés au système d’authentification. Chaque rôle est défini comme un Groupe auquel nous attribuons des permissions spécifiques, par exemple la modification d’une offre ou encore la suppression d’un commentaire. Une fois cela définit, il faut associer chaque utilisateur correspondant à son rôle. Pour vérifier les accès, nous pouvons utiliser request.user.groups.filter(name='Administrateur').exists()  ou encore request.user.has_perm().
+
+### Quels sont les mécanismes pour sécuriser les mots de passe des utilisateurs ?
+
+Dans Django, la sécurité des mots de passe reposent principalement sur le hachage fort et l'utilisation de sel. Les mots de passe ne sont jamais stockés en clair mais utilisent l’algorithme PBKF2 avec SHA256 pour créer une empreinte cryptographique. Ensuite, un sel unique et aléatoire est ajouté au mot de passage avant le hachage afin de pouvoir se protéger.
+
+### Comment entraîner un modèle NLP pour l'analyse des CV ?
+
+Pour entraîner un modèle NLP il faut avoir un grand ensemble de données de CV correspondant à nos tâches. Ensuite, il faut choisir une architecture de modèle NLP, comme BERT par exemple. Après, le modèle est entraîné avec ce jeu de données de CV pour apprendre à identifier et extraire les informations pertinentes.
+
+### Comment intégrer ce modèle dans une application Django ?
+
+Pour intégrer ce modèle, nous devons tout d’abord l’enregistrer, le plus souvent au format pickle ou joblib, et le charger dans la mémoire de l’application. Ensuite, nous devons créer une API View qui reçoit le CV, le pré-traite et le transmet au modèle chargé pur obtenir les prédictions.
+
+### Quelles sont les pratiques recommandées pour optimiser les performances d'une application Django ?
+
+Pour optimiser les performances d’une application Django, il faut se concentrer sur la réduction des requêtes de bases de données et l’accélération du rendu côté serveur. Les pratiques recommandées sont l’utilisation de méthodes efficaces comme select_related et prefetch_related pour minimiser le nombre de requêtes à la base de données.
+
+### Comment sécuriser une application Django contre les attaques courantes comme CSRF et XSS ?
+
+Pour le CSRF, Django fournitune protection intégrée, il suffit de s’assurer que le middleware CsrfViewMiddleware  est activié et utiliser le tag de template {% csrf_token %}  dans tous les formulaires.
+Pour le XSS, la protection se fait en échappant automatiquement le contenu, ce qui garantit que les données utilisateurs sont traitées comme du texte pur et non du code HTML.
+
+### Quels sont les avantages de l'utilisation de Docker pour le déploiement ?
+
+Docker permet d’assurer la portabilité et la cohérence de l’environnement applicatif. Il permet également d’isoler l’application et ses dépendances dans des conteneurs. CEla permet de simplifier le processus de déploiement, réduit les conflits de dépendances et facilite la mise à l’échelle.
+
+### Comment configurer un déploiement CI/CD pour une application Django ?
+
+Pour configurer un déploiement CI/CD, il faut tout d’abord utiliser un service CI/CD pour déclencher la construction à chaque push sur le dépôt de code. Ensuite, le pipeline exécute les tests unitaires et d’intégration de votre application. Par la suite, si tout se passe correctement, le pipeline construit une image Docker de l’app. Pour finir, l’étape de déploiement pousse cette image vers un registre et met à jour l’environnement de production pour lancer le nouveau conteneur. 
+
